@@ -2,6 +2,128 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Agricultural green palette */
+    --background: 120 20% 98%;
+    --foreground: 120 10% 3.9%;
+    --card: 120 15% 96%;
+    --card-foreground: 120 10% 3.9%;
+    --popover: 120 20% 98%;
+    --popover-foreground: 120 10% 3.9%;
+    
+    /* Primary green shades */
+    --primary: 120 60% 35%;
+    --primary-foreground: 120 10% 98%;
+    --primary-light: 120 50% 45%;
+    --primary-dark: 120 70% 25%;
+    
+    /* Secondary earth tones */
+    --secondary: 30 20% 85%;
+    --secondary-foreground: 30 10% 15%;
+    
+    /* Muted earth tones */
+    --muted: 120 10% 90%;
+    --muted-foreground: 120 5% 35.5%;
+    
+    /* Accent nature colors */
+    --accent: 85 60% 85%;
+    --accent-foreground: 85 10% 15%;
+    
+    /* UI colors */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 120 20% 82%;
+    --input: 120 20% 82%;
+    --ring: 120 60% 35%;
+    --radius: 0.75rem;
+    
+    /* Success/healthy plant colors */
+    --success: 120 60% 35%;
+    --success-foreground: 120 10% 98%;
+    
+    /* Warning/disease colors */
+    --warning: 45 93% 47%;
+    --warning-foreground: 45 5% 15%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-earth: linear-gradient(180deg, hsl(var(--background)), hsl(var(--secondary)));
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px hsl(var(--primary) / 0.1);
+    --shadow-card: 0 6px 30px hsl(var(--primary) / 0.15);
+  }
+
+  .dark {
+    --background: 120 15% 8%;
+    --foreground: 120 15% 96%;
+    --card: 120 15% 10%;
+    --card-foreground: 120 15% 96%;
+    --popover: 120 15% 8%;
+    --popover-foreground: 120 15% 96%;
+    
+    --primary: 120 50% 50%;
+    --primary-foreground: 120 10% 10%;
+    --primary-light: 120 45% 60%;
+    --primary-dark: 120 60% 40%;
+    
+    --secondary: 30 15% 15%;
+    --secondary-foreground: 30 15% 85%;
+    
+    --muted: 120 10% 15%;
+    --muted-foreground: 120 10% 65%;
+    
+    --accent: 85 30% 20%;
+    --accent-foreground: 85 30% 80%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 120 15% 20%;
+    --input: 120 15% 20%;
+    --ring: 120 50% 50%;
+    
+    --success: 120 50% 50%;
+    --success-foreground: 120 10% 10%;
+    
+    --warning: 45 80% 55%;
+    --warning-foreground: 45 10% 15%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-earth: linear-gradient(180deg, hsl(var(--background)), hsl(var(--secondary)));
+    
+    --shadow-soft: 0 4px 20px hsl(var(--primary) / 0.2);
+    --shadow-card: 0 6px 30px hsl(var(--primary) / 0.25);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-earth {
+    background: var(--gradient-earth);
+  }
+  
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
