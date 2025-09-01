@@ -44,7 +44,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      const { cleanupAuthState } = await import('@/lib/authCleanup');
+      cleanupAuthState();
+      try {
+        await supabase.auth.signOut({ scope: 'global' } as any);
+      } catch (e) {
+        // ignore
+      }
+    } finally {
+      window.location.href = '/auth';
+    }
   };
 
   return (

@@ -30,8 +30,15 @@ export default function Auth() {
     setLoading(true);
 
     try {
+      // Clean any previous auth state to avoid conflicts
+      const { cleanupAuthState } = await import('@/lib/authCleanup');
+      cleanupAuthState();
+      try {
+        await supabase.auth.signOut({ scope: 'global' } as any);
+      } catch {}
+
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -39,15 +46,42 @@ export default function Auth() {
           },
         });
         if (error) throw error;
-        toast({ title: 'Account created!', description: 'Welcome to CropGuard AI!' });
-        navigate('/dashboard');
+
+        // If session is returned (email confirmation disabled), go straight to dashboard
+        if (data.session) {
+          toast({ title: 'Welcome!', description: 'Account created successfully.' });
+          window.location.href = '/dashboard';
+          return;
+        }
+
+        // Fallback: try password sign-in immediately
+        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (!signInError) {
+          window.location.href = '/dashboard';
+          return;
+        }
+
+        // If still not signed in, likely email confirmation is required on the project
+        toast({
+          title: 'Check project email settings',
+          description: 'Email confirmation seems enabled. Disable it in Supabase Auth > Providers to allow instant login.',
+          variant: 'destructive',
+        });
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        if (data.session) {
+          window.location.href = '/dashboard';
+          return;
+        }
         navigate('/dashboard');
       }
     } catch (error: any) {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
+      const msg = error?.message?.toLowerCase?.() || '';
+      const friendly = msg.includes('invalid login credentials')
+        ? 'Invalid email or password. If you just signed up, disable email confirmation in Supabase settings to log in instantly.'
+        : error.message;
+      toast({ title: 'Authentication error', description: friendly, variant: 'destructive' });
     } finally {
       setLoading(false);
     }
