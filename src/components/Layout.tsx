@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { Leaf, Camera, History, LogOut, User } from 'lucide-react';
+import { Leaf, Camera, History, LogOut, User, Shield } from 'lucide-react';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { user, signOut } = useAuth();
@@ -10,10 +10,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Camera },
     { name: 'History', href: '/history', icon: History },
+    { name: 'Admin', href: '/admin', icon: Shield },
   ];
 
-  // Add admin link only if current path is admin (for direct access)
-  const isAdminPath = location.pathname === '/admin';
 
   return (
     <div className="min-h-screen bg-gradient-earth">

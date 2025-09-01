@@ -35,12 +35,12 @@ export default function Auth() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/dashboard`,
             data: { name },
           },
         });
         if (error) throw error;
-        toast({ title: 'Account created!', description: 'Please check your email.' });
+        toast({ title: 'Account created!', description: 'Welcome to CropGuard AI!' });
+        navigate('/dashboard');
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
