@@ -12,6 +12,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: 'History', href: '/history', icon: History },
   ];
 
+  // Add admin link only if current path is admin (for direct access)
+  const isAdminPath = location.pathname === '/admin';
+
   return (
     <div className="min-h-screen bg-gradient-earth">
       <nav className="border-b border-border bg-card/50 backdrop-blur-sm">

@@ -166,7 +166,7 @@ const Index = () => {
       </main>
 
       <footer className="container mx-auto px-4 py-8 text-center text-muted-foreground">
-        <p>&copy; 2024 CropCare. Helping farmers protect their crops with AI technology.</p>
+        <p>&copy; 2025 CropCare. Helping farmers protect their crops with AI technology.</p>
       </footer>
     </div>
   );
