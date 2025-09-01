@@ -21,6 +21,7 @@ interface Prediction {
   confidence: number;
   symptoms: string;
   treatment: string;
+  possible_diseases?: string[];
   created_at: string;
 }
 
@@ -85,30 +86,40 @@ export default function Results() {
 
   const generateMockPrediction = async (plantImageId: string) => {
     // Mock AI analysis - replace with actual AI service
+    const allDiseases = [
+      'Late Blight', 'Powdery Mildew', 'Bacterial Spot', 'Early Blight', 
+      'Septoria Leaf Spot', 'Mosaic Virus', 'Anthracnose', 'Rust Disease',
+      'Downy Mildew', 'Black Rot', 'Leaf Curl', 'Root Rot'
+    ];
+
     const mockDiseases = [
       {
         name: 'Healthy Plant',
         confidence: 95,
         symptoms: 'No visible signs of disease. Plant appears healthy with vibrant green coloration.',
         treatment: 'Continue regular watering and fertilization. Monitor for any changes in appearance.',
+        possibleDiseases: ['Early Blight', 'Powdery Mildew', 'Bacterial Spot'],
       },
       {
         name: 'Late Blight',
         confidence: 87,
         symptoms: 'Dark brown or black lesions on leaves, white moldy growth on undersides of leaves in humid conditions.',
         treatment: 'Remove affected leaves immediately. Apply copper-based fungicide. Improve air circulation and avoid overhead watering.',
+        possibleDiseases: ['Early Blight', 'Downy Mildew', 'Bacterial Spot'],
       },
       {
         name: 'Powdery Mildew',
         confidence: 92,
         symptoms: 'White, powdery coating on leaves and stems. Leaves may yellow and drop prematurely.',
         treatment: 'Spray with baking soda solution (1 tsp per quart water). Apply neem oil. Ensure good air circulation.',
+        possibleDiseases: ['Downy Mildew', 'Rust Disease', 'Leaf Curl'],
       },
       {
         name: 'Bacterial Spot',
         confidence: 78,
         symptoms: 'Small, dark spots on leaves with yellow halos. Spots may have a greasy appearance.',
         treatment: 'Remove infected plant parts. Apply copper-based bactericide. Avoid overhead watering and ensure good drainage.',
+        possibleDiseases: ['Septoria Leaf Spot', 'Anthracnose', 'Black Rot'],
       },
     ];
 
@@ -123,6 +134,7 @@ export default function Results() {
           confidence: randomDisease.confidence,
           symptoms: randomDisease.symptoms,
           treatment: randomDisease.treatment,
+          possible_diseases: randomDisease.possibleDiseases,
         },
       ])
       .select()
@@ -234,6 +246,19 @@ export default function Results() {
                           {prediction.treatment}
                         </p>
                       </div>
+
+                      {prediction.possible_diseases && prediction.possible_diseases.length > 0 && (
+                        <div>
+                          <h4 className="font-semibold mb-2">Other Possible Diseases:</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {prediction.possible_diseases.map((disease, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {disease}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </CardContent>
